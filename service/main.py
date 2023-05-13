@@ -1,9 +1,8 @@
 from fastapi import FastAPI, Depends, Request
 from fastapi_pagination import Params
 from pydantic import BaseModel
-from typing import List
 
-from .post_question import get_answer
+from .post_question import QuestionAnswer
 from .get_entities import get_doc_entities
 
 
@@ -16,11 +15,12 @@ class QuestionResponse(BaseModel):
 
 
 app = FastAPI()
+question_answer = QuestionAnswer()
 
 
 @app.post("/question")
 def answer_question(data: QuestionRequest) -> QuestionResponse:
-    answer_resp = get_answer(question=data.question)
+    answer_resp = question_answer.get_answer(question=data.question)
     return QuestionResponse(
         answer=answer_resp.strip().replace("\n", "")
     )
