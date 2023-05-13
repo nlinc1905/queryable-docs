@@ -1,0 +1,13 @@
+# Ignore unit tests
+test/
+
+# Ignore research
+research/
+
+# Ignore unnecessary data
+data/build_your_first_question_answering_system
+
+# Ignore other files
+.gitignore
+LICENSE
+README.md
