@@ -13,7 +13,7 @@ repos:
     hooks:
     -   id: pylint
         name: pylint
-        entry: pylint
+        entry: pylint ./service
         language: system
         types: [python]
         args:
