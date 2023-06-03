@@ -4,6 +4,9 @@ test/
 # Ignore research
 research/
 
+# Ignore eval pipeline
+eval/
+
 # Ignore unnecessary data
 data/build_your_first_question_answering_system
 
