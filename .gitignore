@@ -161,6 +161,7 @@ cython_debug/
 
 # Data
 data/build_your_first_question_answering_system
+research/data/got
 eval/notebooks/data/ir_eval_data/*.json
 
 # Models
