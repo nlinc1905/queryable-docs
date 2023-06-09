@@ -5,9 +5,12 @@ from haystack.nodes import BM25Retriever, TransformersSummarizer
 from haystack.pipelines import SearchSummarizationPipeline
 from haystack.nodes import TextConverter, PreProcessor
 
+from .custom_haystack_retreiver import CustomEmbeddingRetriever
+
 
 DOC_DIR = "data/web_docs"
 FILES_TO_INDEX = [DOC_DIR + "/" + f for f in os.listdir(DOC_DIR)]
+USE_BM25 = False
 
 
 class QuestionAnswer:
@@ -35,14 +38,18 @@ class QuestionAnswer:
         )
 
         # build doc store
-        document_store = InMemoryDocumentStore(use_bm25=True)
+        document_store = InMemoryDocumentStore(embedding_dim=384, use_bm25=USE_BM25)
 
         # build index
         indexing_pipeline = TextIndexingPipeline(document_store, text_converter, preprocessor)
         indexing_pipeline.run_batch(file_paths=FILES_TO_INDEX)
 
         # build retriever
-        retriever = BM25Retriever(document_store=document_store)
+        if USE_BM25:
+            retriever = BM25Retriever(document_store=document_store)
+        else:
+            retriever = CustomEmbeddingRetriever(embedding_model="sentence-transformers/all-MiniLM-L6-v2")
+            document_store.update_embeddings(retriever)
 
         # build the summarizer
         summarizer = TransformersSummarizer(model_name_or_path="sshleifer/distilbart-cnn-12-6")
