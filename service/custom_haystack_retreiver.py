@@ -56,6 +56,7 @@ class CustomEmbeddingRetriever(EmbeddingRetriever):
         if isinstance(queries, str):
             queries = [queries]
         assert isinstance(queries, list), "Expecting a list of texts, i.e. create_embeddings(texts=['text1',...])"
+        queries = {"texts": queries}
         embeds = call_endpoint(EMBED_BATCH_ENDPOINT, queries)
         embeds = np.asarray(json.loads(embeds))
         return embeds

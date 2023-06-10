@@ -48,7 +48,10 @@ class QuestionAnswer:
         if USE_BM25:
             retriever = BM25Retriever(document_store=document_store)
         else:
-            retriever = CustomEmbeddingRetriever(embedding_model="sentence-transformers/all-MiniLM-L6-v2")
+            retriever = CustomEmbeddingRetriever(
+                document_store=document_store,
+                embedding_model="sentence-transformers/all-MiniLM-L6-v2"
+            )
             document_store.update_embeddings(retriever)
 
         # build the summarizer
